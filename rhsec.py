@@ -3,10 +3,15 @@ import sys
 import requests
 from datetime import datetime, timedelta
 from xml.etree import ElementTree
+import csv
+import argparse
 
-
+# parse argument for output file name
+parser = argparse.ArgumentParser()
+parser.add_argument("outfile", help="full path to output file")
+args = parser.parse_args()
 url = "https://access.redhat.com/labs/securitydataapi"
-outfile = "c:/users/wilkesc/file.csv"
+outfile = args.outfile
 
 def get_cve_json(baseurl):
     """
@@ -37,11 +42,19 @@ def get_cvrf_json(baseurl):
 #    print(cvrf['RHSA'], cvrf['severity'], cvrf['released_on'], cvrf['CVEs'], cvrf['released_packages'])
 
 stuff = get_cvrf_json(url)
+#clear the output file
+f = open(outfile, "w+")
+f.close()
+# get each cvrf and write out a csv file to outfile directory
 for cvrf in stuff:
     #print(cvrf['RHSA'], cvrf['severity'], cvrf['CVEs'], cvrf['released_packages'])
     if cvrf['released_packages']:
-        if 'el8' in cvrf['released_packages'][0]:
-            print(cvrf['RHSA'], cvrf['severity'], cvrf['CVEs'], cvrf['released_packages'])
+        if 'el7' in cvrf['released_packages'][0]:
+            row = cvrf['RHSA'], cvrf['severity'], cvrf['CVEs'], cvrf['released_packages'][0]
+            with open(outfile, 'a') as csvFile:
+                writer = csv.writer(csvFile)
+                writer.writerow(row)
+            csvFile.close()
 
 #stuff = get_cvrf_json(url)
 #for cvrf in stuff:
