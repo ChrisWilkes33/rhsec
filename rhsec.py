@@ -9,9 +9,12 @@ import argparse
 # parse argument for output file name
 parser = argparse.ArgumentParser()
 parser.add_argument("outfile", help="full path to output file")
+parser.add_argument("version", help="version of rhel to retrieve: 7 or 8")
 args = parser.parse_args()
 url = "https://access.redhat.com/labs/securitydataapi"
 outfile = args.outfile
+version = args.version
+
 
 def get_cve_json(baseurl):
     """
@@ -49,7 +52,7 @@ f.close()
 for cvrf in stuff:
     #print(cvrf['RHSA'], cvrf['severity'], cvrf['CVEs'], cvrf['released_packages'])
     if cvrf['released_packages']:
-        if 'el7' in cvrf['released_packages'][0]:
+        if 'el'+version in cvrf['released_packages'][0]:
             row = cvrf['RHSA'], cvrf['severity'], cvrf['CVEs'], cvrf['released_packages'][0]
             with open(outfile, 'a') as csvFile:
                 writer = csv.writer(csvFile)
