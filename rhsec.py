@@ -2,10 +2,11 @@ import json
 import sys
 import requests
 from datetime import datetime, timedelta
+from xml.etree import ElementTree
 
 
 url = "https://access.redhat.com/labs/securitydataapi"
-
+outfile = "c:/users/wilkesc/file.csv"
 
 def get_cve_json(baseurl):
     """
@@ -31,10 +32,19 @@ def get_cvrf_json(baseurl):
     #return json.dumps(pretty_r, indent=2)
     return r.json()
 
+#stuff = get_cvrf_json(url)
+#for cvrf in stuff:
+#    print(cvrf['RHSA'], cvrf['severity'], cvrf['released_on'], cvrf['CVEs'], cvrf['released_packages'])
+
+stuff = get_cvrf_json(url)
+for cvrf in stuff:
+    #print(cvrf['RHSA'], cvrf['severity'], cvrf['CVEs'], cvrf['released_packages'])
+    if cvrf['released_packages']:
+        if 'el8' in cvrf['released_packages'][0]:
+            print(cvrf['RHSA'], cvrf['severity'], cvrf['CVEs'], cvrf['released_packages'])
 
 #stuff = get_cvrf_json(url)
 #for cvrf in stuff:
-    print(cvrf['RHSA'], cvrf['severity'], cvrf['released_on'], cvrf['CVEs'], cvrf['released_packages'])
-
-stuff = get_cve_json(url)
-print(stuff)
+#    print(cvrf)
+#stuff = get_cve_json(url)
+#print(stuff)
