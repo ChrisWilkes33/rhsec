@@ -40,14 +40,12 @@ def get_cvrf_json(baseurl):
     #return json.dumps(pretty_r, indent=2)
     return r.json()
 
-#stuff = get_cvrf_json(url)
-#for cvrf in stuff:
-#    print(cvrf['RHSA'], cvrf['severity'], cvrf['released_on'], cvrf['CVEs'], cvrf['released_packages'])
-
 stuff = get_cvrf_json(url)
+
 #clear the output file
 f = open(outfile, "w+")
 f.close()
+
 # get each cvrf and write out a csv file to outfile directory
 for cvrf in stuff:
     #print(cvrf['RHSA'], cvrf['severity'], cvrf['CVEs'], cvrf['released_packages'])
@@ -59,8 +57,4 @@ for cvrf in stuff:
                 writer.writerow(row)
             csvFile.close()
 
-#stuff = get_cvrf_json(url)
-#for cvrf in stuff:
-#    print(cvrf)
-#stuff = get_cve_json(url)
-#print(stuff)
+
