@@ -2,7 +2,6 @@ import json
 import sys
 import requests
 from datetime import datetime, timedelta
-from xml.etree import ElementTree
 import csv
 import argparse
 
@@ -16,16 +15,16 @@ outfile = args.outfile
 version = args.version
 
 
-def get_cve_json(baseurl):
-    """
-    takes RedHat security data api url and product variable and returns a json of every CVE for that product
-    """
-    endpoint = "/cve.json"
-    params = 'product=linux 8'
-    r = requests.get(baseurl+endpoint+'?'+params)
+#def get_cve_json(baseurl):
+#    """
+#    takes RedHat security data api url and product variable and returns a json of every CVE for that product
+#    """
+#    endpoint = "/cve.json"
+#    params = 'product=linux 8'
+#    r = requests.get(baseurl+endpoint+'?'+params)
     #pretty_r = json.loads(r.text)
     #return json.dumps(pretty_r, indent=2)
-    return r.json()
+#    return r.json()
 
 
 def get_cvrf_json(baseurl):
